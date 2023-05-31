@@ -1,14 +1,22 @@
-import Nav from './Nav';
-import Header from './Header';
-import Main from './Main';
-import Item from './ItemCard';
-import DataProvider from './DataProvider';
-import { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+export type Items = {
+  id: number;
+  image: string;
+  category: string;
+  rating: { rate: number; count: number };
+  title: string;
+  price: number;
+  description: string;
+};
 
-const App = () => {
-  /*
+const FetchContext = React.createContext();
+
+export function useFetch() {
+  return useContext(FetchContext);
+}
+const DataProvider = ({ children }) => {
   const [items, setItems] = useState<undefined | Items[]>();
-  
+
   useEffect(() => {
     const abortCont = new AbortController();
 
@@ -30,15 +38,9 @@ const App = () => {
     fetchData();
     return () => abortCont.abort();
   }, []);
-*/
+
   return (
-    <>
-      <DataProvider>
-        <Nav />
-        <Header />
-        <Main />
-      </DataProvider>
-    </>
+    <FetchContext.Provider value={items}>{children}</FetchContext.Provider>
   );
 };
-export default App;
+export default DataProvider;

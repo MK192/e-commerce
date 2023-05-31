@@ -1,8 +1,7 @@
 'use client';
-import styles from './styles/page.module.css';
 import Head from 'next/head';
 import App from './components/App';
-
+import GlobalStyles from './styles/GlobalStyles';
 export default function Home() {
   return (
     <>
@@ -17,7 +16,7 @@ export default function Home() {
         />
         <link href="https://fonts.cdnfonts.com/css/axiforma" rel="stylesheet" />
       </Head>
-
+      <GlobalStyles />
       <App />
     </>
   );
