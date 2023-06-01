@@ -1,20 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFetch } from './DataProvider';
 import { Items } from './DataProvider';
 import { StyledMain } from './ComponentStyles/Main.styled';
+import Header from './Header';
 import ItemCard from './ItemCard';
 const Main = () => {
   const data = useFetch();
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const [search, setSearch] = useState(null);
 
   return (
-    <StyledMain>
-      {data?.map((item: Items) => {
-        return <ItemCard key={item.id} item={item} />;
-      })}
-    </StyledMain>
+    <>
+      <Header setSearch={setSearch} />
+      <StyledMain>
+        {data?.map((item: Items) => {
+          if (!search) {
+            return <ItemCard key={item.id} item={item} />;
+          }
+          if (item.title.toUpperCase().includes(search.toUpperCase())) {
+            return <ItemCard key={item.id} item={item} />;
+          }
+        })}
+      </StyledMain>
+    </>
   );
 };
 

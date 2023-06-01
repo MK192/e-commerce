@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { StyledHeader } from './ComponentStyles/Header.styled';
-const Header = () => {
-  const [search, setSearch] = useState('');
+const Header = ({ setSearch }: any) => {
   const [category, setCategory] = useState();
+
   return (
     <StyledHeader>
       <div className="search">
-        <input type="text" placeholder="Start searching..." />
+        <input
+          type="text"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Start searching..."
+        />
       </div>
       <div className="category">
         <strong>Category:</strong> All
