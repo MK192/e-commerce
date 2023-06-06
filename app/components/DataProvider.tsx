@@ -10,12 +10,17 @@ export type Items = {
 };
 
 const FetchContext = React.createContext();
+export const CategoryContext = React.createContext();
 
+export function useCategory() {
+  return useContext(CategoryContext);
+}
 export function useFetch() {
   return useContext(FetchContext);
 }
 const DataProvider = ({ children }) => {
   const [items, setItems] = useState<undefined | Items[]>();
+  const [category, setCategory] = useState('');
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -40,7 +45,11 @@ const DataProvider = ({ children }) => {
   }, []);
 
   return (
-    <FetchContext.Provider value={items}>{children}</FetchContext.Provider>
+    <FetchContext.Provider value={items}>
+      <CategoryContext.Provider value={{ category, setCategory }}>
+        {children}
+      </CategoryContext.Provider>
+    </FetchContext.Provider>
   );
 };
 export default DataProvider;
