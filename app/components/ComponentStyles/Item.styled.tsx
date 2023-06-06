@@ -2,67 +2,78 @@ import styled from 'styled-components';
 import { theme } from '../../styles/variables';
 export const StyledItem = styled.article`
   display: flex;
-  flex-direction: column;
-  border: 1px solid #cfcfcf;
-  border-bottom-left-radius: 30px;
-  border-top-right-radius: 30px;
-
-  width: 26.66rem;
-  height: 45.6rem;
-  ${theme.lightGrey};
-  padding: 20px 15px 12px;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px 50px;
+  max-width: 94rem;
+  margin-left: auto;
+  margin-right: auto;
 
   img {
-    height: 24.9rem;
-    width: 100%;
     object-fit: contain;
-    object-position: center;
-    margin-bottom: 10px;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+  figure {
+    height: 24.5rem;
+    background-color: white;
+    flex: 1 0 49%;
+    width: 100%;
+
+    display: flex;
+    border-radius: 10px;
+  }
+  .arrow {
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
     cursor: pointer;
+  }
+  span {
+    display: block;
+    ${theme.priceText};
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  .number-of-items {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 12px;
+    input {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid grey;
+      outline: none;
+    }
   }
   button {
-    position: absolute;
-
-    align-self: flex-end;
-    border-radius: 50%;
-    background-color: orange;
+    color: #fff;
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    min-width: 90px;
+    border-radius: 5px;
     border: none;
-    width: 4.5rem;
-    height: 4.5rem;
-    ${theme.blue}
-    font-size : 20px;
-    font-weight: 700;
+    ${theme.greenBg};
     cursor: pointer;
   }
-  .price {
-    align-self: flex-start;
-    font-size: 18px;
-    ${theme.darkGreen}
-    font-weight: bold;
-    padding-bottom: 10px;
-  }
-  .title {
-    font-weight: 500;
-    display: block;
-    color: #00008b;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 44px;
-    font-size: 18px;
-  }
-  .description {
-    max-width: 21rem;
-    line-height: 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 48px;
-    font-size: 12px;
-    margin-bottom: 10px;
-  }
-  .category {
-    ${theme.blue}
-    align-self: flex-start;
-    font-size: 11px;
+  .selected-category {
+    padding-top: 9px;
     text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 9px;
+    font-style: italic;
+  }
+  .selected-description {
+    font-size: 1.2rem;
+  }
+  strong {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    display: block;
   }
 `;

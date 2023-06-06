@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { StyledHeader } from './ComponentStyles/Header.styled';
-const Header = ({ setSearch }: any) => {
-  const [category, setCategory] = useState();
+import { useCategory } from './DataProvider';
+
+const Header = ({ setSearch, setShowModal }: any) => {
+  const { category, setCategory } = useCategory();
 
   return (
     <StyledHeader>
@@ -13,11 +14,15 @@ const Header = ({ setSearch }: any) => {
         />
       </div>
       <div className="category">
-        <strong>Category:</strong> All
+        <strong>Category:</strong> {category}
         {category ? (
-          <button className="selected-category">clear</button>
+          <button className="selected-category" onClick={() => setCategory('')}>
+            clear filter
+          </button>
         ) : (
-          <button className="selected-all">CHANGE</button>
+          <button className="selected-all" onClick={() => setShowModal(true)}>
+            CHANGE
+          </button>
         )}
       </div>
     </StyledHeader>

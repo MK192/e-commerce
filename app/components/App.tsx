@@ -1,16 +1,21 @@
 import Nav from './Nav';
 import Main from './Main';
+import Item from './Item';
 import DataProvider from './DataProvider';
-import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   return (
     <>
-      <DataProvider>
-        <Nav />
-
-        <Main />
-      </DataProvider>
+      <BrowserRouter>
+        <DataProvider>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/item/:id" element={<Item />} />
+          </Routes>
+        </DataProvider>
+      </BrowserRouter>
     </>
   );
 };
