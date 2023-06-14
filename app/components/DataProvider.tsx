@@ -11,7 +11,11 @@ export type Items = {
 
 const FetchContext = React.createContext();
 export const CategoryContext = React.createContext();
+const CartContext = React.createContext();
 
+export function useCart() {
+  return useContext(CartContext);
+}
 export function useCategory() {
   return useContext(CategoryContext);
 }
@@ -21,7 +25,7 @@ export function useFetch() {
 const DataProvider = ({ children }) => {
   const [items, setItems] = useState<undefined | Items[]>();
   const [category, setCategory] = useState('');
-
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')));
   useEffect(() => {
     const abortCont = new AbortController();
 
@@ -47,7 +51,9 @@ const DataProvider = ({ children }) => {
   return (
     <FetchContext.Provider value={items}>
       <CategoryContext.Provider value={{ category, setCategory }}>
-        {children}
+        <CartContext.Provider value={{ cart, setCart }}>
+          {children}
+        </CartContext.Provider>
       </CategoryContext.Provider>
     </FetchContext.Provider>
   );

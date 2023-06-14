@@ -9,7 +9,6 @@ const App = () => {
     <>
       <BrowserRouter>
         <DataProvider>
-          <Nav />
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/item/:id" element={<Item />} />

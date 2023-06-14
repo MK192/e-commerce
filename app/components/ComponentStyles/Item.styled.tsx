@@ -22,7 +22,7 @@ export const StyledItem = styled.article`
     background-color: white;
     flex: 1 0 49%;
     width: 100%;
-
+    justify-content: center;
     display: flex;
     border-radius: 10px;
   }
