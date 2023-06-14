@@ -10,4 +10,5 @@ export const StyledMain = styled.main`
   padding: 0 10px;
   column-gap: 20px;
   row-gap: 10px;
+  position: relative;
 `;

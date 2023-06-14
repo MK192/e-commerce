@@ -1,7 +1,7 @@
 import { StyledHeader } from './ComponentStyles/Header.styled';
 import { useCategory } from './DataProvider';
 
-const Header = ({ setSearch, setShowModal }: any) => {
+const Header = ({ setSearch, setShowModalCategory }: any) => {
   const { category, setCategory } = useCategory();
 
   return (
@@ -20,7 +20,10 @@ const Header = ({ setSearch, setShowModal }: any) => {
             clear filter
           </button>
         ) : (
-          <button className="selected-all" onClick={() => setShowModal(true)}>
+          <button
+            className="selected-all"
+            onClick={() => setShowModalCategory(true)}
+          >
             CHANGE
           </button>
         )}

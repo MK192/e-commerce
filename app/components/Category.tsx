@@ -1,6 +1,6 @@
 import { StyledCategory } from './ComponentStyles/Category.styled';
 import { useCategory } from './DataProvider';
-const Category = ({ setShowModal }) => {
+const Category = ({ setShowModalCategory }) => {
   const { category, setCategory } = useCategory();
 
   return (
@@ -9,7 +9,10 @@ const Category = ({ setShowModal }) => {
         <div className="modal">
           <div className="filter-and-close">
             <strong>Filter by category</strong>
-            <button className="close-modal" onClick={() => setShowModal(false)}>
+            <button
+              className="close-modal"
+              onClick={() => setShowModalCategory(false)}
+            >
               x
             </button>
           </div>
@@ -17,7 +20,7 @@ const Category = ({ setShowModal }) => {
             <button
               onClick={() => {
                 setCategory('electronics');
-                setShowModal(false);
+                setShowModalCategory(false);
               }}
             >
               electronics
@@ -25,7 +28,7 @@ const Category = ({ setShowModal }) => {
             <button
               onClick={() => {
                 setCategory('jewelery');
-                setShowModal(false);
+                setShowModalCategory(false);
               }}
             >
               jewelery
@@ -33,7 +36,7 @@ const Category = ({ setShowModal }) => {
             <button
               onClick={() => {
                 setCategory("men's clothing");
-                setShowModal(false);
+                setShowModalCategory(false);
               }}
             >
               men&apos;s clothing
@@ -41,7 +44,7 @@ const Category = ({ setShowModal }) => {
             <button
               onClick={() => {
                 setCategory("women's clothing");
-                setShowModal(false);
+                setShowModalCategory(false);
               }}
             >
               women&apos;s clothing
