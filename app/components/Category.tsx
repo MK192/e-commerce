@@ -1,6 +1,10 @@
 import { StyledCategory } from './ComponentStyles/Category.styled';
 import { useCategory } from './DataProvider';
-const Category = ({ setShowModalCategory }) => {
+
+type Props = {
+  setShowModalCategory: (showModalCategory: boolean) => void;
+};
+const Category = ({ setShowModalCategory }: Props) => {
   const { category, setCategory } = useCategory();
 
   return (

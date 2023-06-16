@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 export type Items = {
   id: number;
   image: string;
@@ -7,11 +7,31 @@ export type Items = {
   title: string;
   price: number;
   description: string;
+  quantity?: number;
 };
+interface CategoryContextDefaultValue {
+  category: string;
+  setCategory: (newCategory: string) => void;
+}
 
-const FetchContext = React.createContext();
-export const CategoryContext = React.createContext();
-const CartContext = React.createContext();
+interface CartContextDefaultValue {
+  cart: string | Items[];
+  setCart: (newCartValue: string | Items[]) => void;
+}
+export const CategoryContext = React.createContext<CategoryContextDefaultValue>(
+  {
+    category: '',
+    setCategory: function (newCategory: string): void {
+      throw new Error('Function not implemented.');
+    },
+  }
+);
+const CartContext = React.createContext<CartContextDefaultValue>({
+  cart: JSON.parse(localStorage.getItem('cart') || '{}'),
+  setCart: function (newCartValue: Items[] | string): void {
+    throw new Error('Function not implemented.');
+  },
+});
 
 export function useCart() {
   return useContext(CartContext);
@@ -19,43 +39,19 @@ export function useCart() {
 export function useCategory() {
   return useContext(CategoryContext);
 }
-export function useFetch() {
-  return useContext(FetchContext);
-}
-const DataProvider = ({ children }) => {
-  const [items, setItems] = useState<undefined | Items[]>();
-  const [category, setCategory] = useState('');
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')));
-  useEffect(() => {
-    const abortCont = new AbortController();
 
-    const fetchData = async () => {
-      setTimeout(async () => {
-        try {
-          let fetchedData = await fetch('https://fakestoreapi.com/products');
-          if (!fetchedData.ok) {
-            throw Error('Could not fetch the data');
-          }
-          fetchedData = await fetchedData.json();
-          const res: Array<Items> = fetchedData;
-          setItems(res);
-        } catch (error) {
-          console.error(error);
-        }
-      }, 100);
-    };
-    fetchData();
-    return () => abortCont.abort();
-  }, []);
+const DataProvider = ({ children }: any) => {
+  const [category, setCategory] = useState('');
+  const [cart, setCart] = useState<string | Items[]>(
+    JSON.parse(localStorage.getItem('cart'))
+  );
 
   return (
-    <FetchContext.Provider value={items}>
-      <CategoryContext.Provider value={{ category, setCategory }}>
-        <CartContext.Provider value={{ cart, setCart }}>
-          {children}
-        </CartContext.Provider>
-      </CategoryContext.Provider>
-    </FetchContext.Provider>
+    <CategoryContext.Provider value={{ category, setCategory }}>
+      <CartContext.Provider value={{ cart, setCart }}>
+        {children}
+      </CartContext.Provider>
+    </CategoryContext.Provider>
   );
 };
 export default DataProvider;

@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react';
 import { StyledCartModal } from './ComponentStyles/CartModal.styled';
 import { deleteItem, handleChange } from '../utils/functions';
-import { useCart } from './DataProvider';
+import { Items, useCart } from './DataProvider';
 import Image from 'next/image';
-const CartModal = ({ setShowModalCart }: any) => {
-  const [cartItems, setCartItems] = useState<string[]>([]);
+
+type Props = {
+  setShowModalCart: (showModal: boolean) => void;
+};
+const CartModal = ({ setShowModalCart }: Props) => {
+  const [cartItems, setCartItems] = useState<Items[] | null>([]);
   const [newValue, setNewValue] = useState(null);
   const [total, setTotal] = useState<number>(0);
   const { setCart } = useCart();
   useEffect(() => {
     const cart = localStorage.getItem('cart');
-    setCartItems(JSON.parse(cart));
+    setCartItems(JSON.parse(cart || '{}'));
   }, []);
 
   useEffect(() => {
     let totalPay = 0;
-    if (cartItems) {
+
+    if (cartItems?.length > 0 && cartItems) {
       cartItems.forEach((item) => {
         totalPay +=
           item.quantity === undefined ? item.price : item.price * item.quantity;
       });
-      setTotal(totalPay.toFixed(2));
+      setTotal(Number(totalPay.toFixed(2)));
     }
   }, [cartItems, total]);
 
@@ -40,7 +45,14 @@ const CartModal = ({ setShowModalCart }: any) => {
 
           {!cartItems?.length ? (
             <div className="empty-cart">
-              <img src="/cart.png" alt="empty-cart-image" />
+              <Image
+                src="/cart.png"
+                alt="empty-cart-image"
+                height={200}
+                width={100}
+                unoptimized={true}
+                priority
+              />
               <p>Cart empty</p>
             </div>
           ) : (
@@ -69,7 +81,12 @@ const CartModal = ({ setShowModalCart }: any) => {
                       >
                         x
                       </button>
-                      <img src={item.image} alt="item from cart image" />{' '}
+                      <Image
+                        src={item.image}
+                        alt="item from cart image"
+                        height={100}
+                        width={100}
+                      />{' '}
                       <div className="middle-div">
                         <p>{item.title}</p>
                         <p>Price : {item.price} $</p>
@@ -81,16 +98,17 @@ const CartModal = ({ setShowModalCart }: any) => {
                           value={
                             item.quantity === undefined ? 1 : item.quantity
                           }
-                          onChange={(e) =>
-                            handleChange(
-                              item.id,
-                              e.target.value,
-                              cartItems,
-                              setNewValue,
-                              setTotal,
-                              setCartItems
-                            )
-                          }
+                          onChange={(e) => {
+                            if (Number(e.target.value) > 0)
+                              handleChange(
+                                item.id,
+                                Number(e.target.value),
+                                cartItems,
+                                setNewValue,
+                                setTotal,
+                                setCartItems
+                              );
+                          }}
                         />
                         <strong>
                           {item.quantity === undefined
@@ -109,7 +127,7 @@ const CartModal = ({ setShowModalCart }: any) => {
                   onClick={() => {
                     localStorage.clear();
                     setCartItems([]);
-                    setCart(null);
+                    setCart([]);
                   }}
                   className="clear-button"
                 >
@@ -119,7 +137,7 @@ const CartModal = ({ setShowModalCart }: any) => {
                   onClick={() => {
                     localStorage.clear();
                     setCartItems([]);
-                    setCart(null);
+                    setCart([]);
                   }}
                   className="buy-button"
                 >
