@@ -1,13 +1,19 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { StyledNav } from './ComponentStyles/Nav.styled';
 import { useCart } from './DataProvider';
 import Image from 'next/image';
-const Nav = ({ setShowModalCart, active }: any) => {
+
+type Props = {
+  setShowModalCart: (showModalCart: boolean) => void;
+  active: boolean;
+};
+const Nav = ({ setShowModalCart, active }: Props) => {
   const [emptyCart, setEmptyCart] = useState(true);
   const { cart, setCart } = useCart();
   const [cartItems, setCartItems] = useState(0);
   useEffect(() => {
     !cart || cart?.length === 0 ? setEmptyCart(true) : setEmptyCart(false);
+
     setCartItems(cart?.length);
   }, [cart, cartItems]);
 
@@ -24,7 +30,14 @@ const Nav = ({ setShowModalCart, active }: any) => {
           onClick={() => setShowModalCart(true)}
           className={emptyCart ? 'empty-cart-image' : 'cart-image'}
         />
-        {cart?.length > 0 && <div className="number-of-items">{cartItems}</div>}
+        {cart?.length > 0 && (
+          <div
+            className="number-of-items"
+            onClick={() => setShowModalCart(true)}
+          >
+            {cartItems}
+          </div>
+        )}
       </div>
     </StyledNav>
   );

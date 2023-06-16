@@ -1,6 +1,8 @@
 /* this function add object from parametar to localStorage 'cart' object 
 and add new quantity property if there is more then 1 item with same id */
 
+import { Items } from '../components/DataProvider';
+
 export const addToCart = (newItem: string) => {
   let cart: Item[] = [];
   let cartArray = JSON.parse(localStorage.getItem('cart'));
@@ -40,12 +42,12 @@ cart object with updates about quantity */
 export const handleChange = (
   id: number,
   value: number,
-  cartItems: [],
+  cartItems: Items[],
   setNewValue: (quantity: number) => void,
   setTotal: (quantity: number) => void,
-  setCartItems: (cartItems: Item[]) => void
+  setCartItems: (cartItems: Items[]) => void
 ) => {
-  cartItems.forEach((item: Item) => {
+  cartItems.forEach((item) => {
     if (item.id === id) {
       item.quantity = Number(value);
       setNewValue(item.quantity);
@@ -56,7 +58,7 @@ export const handleChange = (
   setCartItems(cartItems);
 };
 
-export const deleteItem = (id: number, cartItems: string[]) => {
+export const deleteItem = (id: number, cartItems: Items[]) => {
   const newArray = cartItems.filter((item) => item.id !== id);
 
   return JSON.stringify(newArray);
@@ -68,11 +70,10 @@ single item page */
 export const addSingleItem = (
   id: number,
   numberOfItems: number,
-  selected: Item | null
+  selected: Item
 ) => {
   let cart = [];
-  let cartArray = JSON.parse(localStorage.getItem('cart'));
-  console.log(cartArray);
+  let cartArray = JSON.parse(localStorage.getItem('cart') || '{}');
 
   if (!cartArray) {
     selected.quantity = numberOfItems;
@@ -81,17 +82,27 @@ export const addSingleItem = (
 
     return JSON.stringify(cart);
   } else {
-    let selectedItem = cartArray.find((item) => item.id === id);
+    let selectedItem = cartArray.find((item: Items) => item.id === id);
     if (selectedItem) {
       selectedItem.quantity
         ? (selectedItem.quantity =
             Number(selectedItem.quantity) + Number(numberOfItems))
-        : (selectedItem.quantity = numberOfItems);
+        : (selectedItem.quantity = 1 + numberOfItems);
     } else {
-      selected.quantity = numberOfItems;
+      selected ? (selected.quantity = numberOfItems) : null;
+
       cartArray.push(selected);
     }
 
     return JSON.stringify(cartArray);
   }
+};
+
+/* this function activate animation for new item on cart icon */
+
+export const handleActive = (setActive: (active: boolean) => void) => {
+  setActive(true);
+  setTimeout(() => {
+    setActive(false);
+  }, 3000);
 };

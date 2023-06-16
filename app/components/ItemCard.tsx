@@ -1,12 +1,15 @@
 import { StyledItemCard } from './ComponentStyles/ItemCard.styled';
 import { Link } from 'react-router-dom';
 import { useCategory } from './DataProvider';
-import { addToCart } from '../utils/functions';
+import { addToCart, handleActive } from '../utils/functions';
 import { useCart } from './DataProvider';
+import { Items } from './DataProvider';
 import Image from 'next/image';
-import { useState } from 'react';
-
-const ItemCard = ({ item, setActive, handleActive }) => {
+type Props = {
+  item: Items;
+  setActive: (active: boolean) => void;
+};
+const ItemCard = ({ item, setActive }: Props) => {
   const { setCategory } = useCategory();
   const { setCart } = useCart();
 
@@ -18,14 +21,21 @@ const ItemCard = ({ item, setActive, handleActive }) => {
             type="button"
             onClick={() => {
               localStorage.setItem('cart', addToCart(JSON.stringify(item)));
-              setCart(JSON.parse(localStorage.getItem('cart')));
-              handleActive();
+              setCart(JSON.parse(localStorage.getItem('cart') || '{}'));
+              handleActive(setActive);
             }}
           >
             +
           </button>
           <Link to={`/item/${item.id}`}>
-            <img src={item?.image} alt="article-image" />
+            <Image
+              src={item.image}
+              alt="article-image"
+              height={100}
+              width={100}
+              unoptimized={true}
+              priority
+            />
           </Link>
           <p className="price">{item?.price} $</p>
           <Link to={`/item/${item.id}`}>

@@ -1,4 +1,3 @@
-import Nav from './Nav';
 import Main from './Main';
 import Item from './Item';
 import DataProvider from './DataProvider';

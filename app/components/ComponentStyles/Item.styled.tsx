@@ -9,7 +9,17 @@ export const StyledItem = styled.article`
   max-width: 94rem;
   margin-left: auto;
   margin-right: auto;
-
+  .loading {
+    animation: rotation 2s infinite linear;
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
   img {
     object-fit: contain;
     height: 100%;

@@ -1,7 +1,11 @@
 import { StyledHeader } from './ComponentStyles/Header.styled';
 import { useCategory } from './DataProvider';
 
-const Header = ({ setSearch, setShowModalCategory }: any) => {
+type Props = {
+  setSearch: (search: string) => void;
+  setShowModalCategory: (showModalCategory: boolean) => void;
+};
+const Header = ({ setSearch, setShowModalCategory }: Props) => {
   const { category, setCategory } = useCategory();
 
   return (
