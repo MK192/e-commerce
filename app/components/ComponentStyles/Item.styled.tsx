@@ -9,6 +9,7 @@ export const StyledItem = styled.article`
   max-width: 94rem;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
   .loading {
     animation: rotation 2s infinite linear;
     @keyframes rotation {
@@ -41,6 +42,9 @@ export const StyledItem = styled.article`
     width: 40px;
     margin-left: 5px;
     cursor: pointer;
+    position: absolute;
+    top: 9%;
+    left: 7%;
   }
   span {
     display: block;
@@ -85,5 +89,19 @@ export const StyledItem = styled.article`
     font-size: 1.6rem;
     margin-bottom: 10px;
     display: block;
+  }
+  @media (max-width: 750px) {
+    max-width: 42rem;
+
+    flex-direction: column;
+    gap: 10px;
+
+    img {
+      width: 150px;
+    }
+    .arrow {
+      top: 6%;
+      left: 13%;
+    }
   }
 `;

@@ -2,33 +2,39 @@ import { useEffect, useState } from 'react';
 import { StyledCartModal } from './ComponentStyles/CartModal.styled';
 import { deleteItem, handleChange } from '../utils/functions';
 import { Items, useCart } from './DataProvider';
+import { isLocalStorageAccessible } from '../utils/functions';
+
 import Image from 'next/image';
 
 type Props = {
   setShowModalCart: (showModal: boolean) => void;
 };
 const CartModal = ({ setShowModalCart }: Props) => {
-  const [cartItems, setCartItems] = useState<Items[] | null>([]);
-  const [newValue, setNewValue] = useState(null);
+  //states
+  const [cartItems, setCartItems] = useState<Items[]>([]);
+  const [newValue, setNewValue] = useState<number | null>(null);
   const [total, setTotal] = useState<number>(0);
-  const { setCart } = useCart();
+
+  //hooks
+  const { dispatch } = useCart();
   useEffect(() => {
-    const cart = localStorage.getItem('cart');
-    setCartItems(JSON.parse(cart || '{}'));
+    if (isLocalStorageAccessible()) {
+      const cart = localStorage.getItem('cart');
+      setCartItems(JSON.parse(cart || '[]'));
+    } else {
+      alert('localstorage is unavailable');
+    }
   }, []);
 
   useEffect(() => {
-    let totalPay = 0;
+    const totalPay = cartItems.reduce((total, cart) => {
+      total +=
+        cart.quantity === undefined ? cart.price : cart.price * cart.quantity;
+      return total;
+    }, 0);
 
-    if (cartItems?.length > 0 && cartItems) {
-      cartItems.forEach((item) => {
-        totalPay +=
-          item.quantity === undefined ? item.price : item.price * item.quantity;
-      });
-      setTotal(Number(totalPay.toFixed(2)));
-    }
+    setTotal(Number(totalPay.toFixed(2)));
   }, [cartItems, total]);
-
   return (
     <StyledCartModal>
       <div className="overlay">
@@ -63,20 +69,24 @@ const CartModal = ({ setShowModalCart }: Props) => {
                     <div className="cart-item" key={item.id}>
                       <button
                         onClick={() => {
-                          localStorage.setItem(
-                            'cart',
-                            deleteItem(item.id, cartItems)
-                          );
-                          setCartItems(
-                            cartItems.filter(
-                              (cartItem) => item.id !== cartItem.id
-                            )
-                          );
-                          setCart(
-                            cartItems.filter(
-                              (cartItem) => item.id !== cartItem.id
-                            )
-                          );
+                          if (isLocalStorageAccessible()) {
+                            localStorage.setItem(
+                              'cart',
+                              deleteItem(item.id, cartItems)
+                            );
+                            setCartItems(
+                              cartItems.filter(
+                                (cartItem) => item.id !== cartItem.id
+                              )
+                            );
+
+                            dispatch({
+                              type: 'delete_item',
+                              payload: { id: item.id, items: cartItems },
+                            });
+                          } else {
+                            alert('locaststorage is unavailable');
+                          }
                         }}
                       >
                         x
@@ -103,6 +113,7 @@ const CartModal = ({ setShowModalCart }: Props) => {
                               handleChange(
                                 item.id,
                                 Number(e.target.value),
+                                total,
                                 cartItems,
                                 setNewValue,
                                 setTotal,
@@ -125,9 +136,12 @@ const CartModal = ({ setShowModalCart }: Props) => {
               <div className="buttons-div">
                 <button
                   onClick={() => {
-                    localStorage.clear();
-                    setCartItems([]);
-                    setCart([]);
+                    if (isLocalStorageAccessible()) {
+                      setCartItems([]);
+                      dispatch({ type: 'empty_cart' });
+                    } else {
+                      alert('localstorage is unavailable');
+                    }
                   }}
                   className="clear-button"
                 >
@@ -135,9 +149,12 @@ const CartModal = ({ setShowModalCart }: Props) => {
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.clear();
-                    setCartItems([]);
-                    setCart([]);
+                    if (isLocalStorageAccessible()) {
+                      setCartItems([]);
+                      dispatch({ type: 'empty_cart' });
+                    } else {
+                      alert('localstorage is unavailable');
+                    }
                   }}
                   className="buy-button"
                 >

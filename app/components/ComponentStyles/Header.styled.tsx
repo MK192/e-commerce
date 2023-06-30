@@ -30,4 +30,9 @@ export const StyledHeader = styled.header`
   .selected-all {
     border: 1px solid #46940d;
   }
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;

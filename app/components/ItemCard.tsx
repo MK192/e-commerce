@@ -4,15 +4,19 @@ import { useCategory } from './DataProvider';
 import { addToCart, handleActive } from '../utils/functions';
 import { useCart } from './DataProvider';
 import { Items } from './DataProvider';
+import { isLocalStorageAccessible } from '../utils/functions';
+import { useState } from 'react';
 import Image from 'next/image';
+
 type Props = {
   item: Items;
   setActive: (active: boolean) => void;
 };
 const ItemCard = ({ item, setActive }: Props) => {
-  const { setCategory } = useCategory();
-  const { setCart } = useCart();
+  const [animationReady, setAnimationReady] = useState(true);
 
+  const { setCategory } = useCategory();
+  const { dispatch } = useCart();
   if (item) {
     return (
       <>
@@ -20,9 +24,22 @@ const ItemCard = ({ item, setActive }: Props) => {
           <button
             type="button"
             onClick={() => {
-              localStorage.setItem('cart', addToCart(JSON.stringify(item)));
-              setCart(JSON.parse(localStorage.getItem('cart') || '{}'));
-              handleActive(setActive);
+              if (isLocalStorageAccessible()) {
+                localStorage.setItem('cart', addToCart(JSON.stringify(item)));
+                dispatch({
+                  type: 'add_items',
+                  payload: { newItem: JSON.stringify(item) },
+                });
+                if (animationReady) {
+                  handleActive(setActive);
+                  setAnimationReady(false);
+                  setTimeout(() => {
+                    setAnimationReady(true);
+                  }, 2000);
+                }
+              } else {
+                alert('localstorage is unavailable');
+              }
             }}
           >
             +
