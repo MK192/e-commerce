@@ -6,31 +6,33 @@ import { useNavigate } from 'react-router-dom';
 import { addSingleItem } from '../utils/functions';
 import { useCart } from './DataProvider';
 import { handleActive } from '../utils/functions';
+import { isLocalStorageAccessible } from '../utils/functions';
 import Image from 'next/image';
 import Nav from './Nav';
 import BackArrow from './BackArrow';
 import CartModal from './CartModal';
 const Item = () => {
-  const { id } = useParams();
+  // states
   const [selected, setSelected] = useState<Items | null>(null);
   const [numberOfItems, setNumberOfItems] = useState(1);
   const [showModalCart, setShowModalCart] = useState(false);
   const [active, setActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { setCart } = useCart();
+  const [animationReady, setAnimationReady] = useState(true);
+  // hooks
+  const { id } = useParams();
+  const { cart, dispatch } = useCart();
   const navigate = useNavigate();
   useEffect(() => {
     const abortCont = new AbortController();
     const fetchData = async () => {
       setTimeout(async () => {
         try {
-          let fetchedData = await fetch(
-            `https://fakestoreapi.com/products/${id}`
-          );
-          if (!fetchedData.ok) {
+          let fetched = await fetch(`https://fakestoreapi.com/products/${id}`);
+          if (!fetched.ok) {
             throw Error('Could not fetch the data');
           }
-          fetchedData = await fetchedData.json();
+          let fetchedData = await fetched.json();
 
           setSelected(fetchedData);
           setIsLoading(false);
@@ -85,20 +87,29 @@ const Item = () => {
                   }
                 }}
               />
-              {(numberOfItems * selected?.price).toFixed(2)}&nbsp;$
+              {selected && (numberOfItems * selected?.price).toFixed(2)}&nbsp;$
             </div>
             <button
               type="button"
               onClick={() => {
-                if (numberOfItems > 0) {
+                if (isLocalStorageAccessible() && selected) {
                   localStorage.setItem(
                     'cart',
                     addSingleItem(selected.id, numberOfItems, selected)
                   );
-                  setCart(JSON.parse(localStorage.getItem('cart') || '{}'));
-                  handleActive(setActive);
+                  dispatch({
+                    type: 'add_single_item',
+                    payload: { id: selected.id, numberOfItems, item: selected },
+                  });
+                  if (animationReady) {
+                    handleActive(setActive);
+                    setAnimationReady(false);
+                    setTimeout(() => {
+                      setAnimationReady(true);
+                    }, 2000);
+                  }
                 } else {
-                  alert('Invalid number of items');
+                  alert('localstorage unavailable');
                 }
               }}
             >

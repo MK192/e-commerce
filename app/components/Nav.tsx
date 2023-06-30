@@ -9,8 +9,9 @@ type Props = {
 };
 const Nav = ({ setShowModalCart, active }: Props) => {
   const [emptyCart, setEmptyCart] = useState(true);
-  const { cart, setCart } = useCart();
-  const [cartItems, setCartItems] = useState(0);
+  const { cart } = useCart();
+  const [cartItems, setCartItems] = useState(cart?.length || null);
+
   useEffect(() => {
     !cart || cart?.length === 0 ? setEmptyCart(true) : setEmptyCart(false);
 
@@ -21,6 +22,7 @@ const Nav = ({ setShowModalCart, active }: Props) => {
     <StyledNav active={active}>
       <strong>STORE</strong>
       <div className="cart">
+        <div className="cart-item-hidden">Hid</div>
         {active && <div className="cart-item">ITEM(S) ADDED</div>}
         <Image
           src="/cart.png"

@@ -17,7 +17,9 @@ export default function Home() {
         <link href="https://fonts.cdnfonts.com/css/axiforma" rel="stylesheet" />
       </Head>
       <GlobalStyles />
+
       <App />
+      <div id="portal" />
     </>
   );
 }

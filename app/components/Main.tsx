@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react';
 import { useCategory } from './DataProvider';
 import { Items } from './DataProvider';
 import { StyledMain } from './ComponentStyles/Main.styled';
+import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import Header from './Header';
 import ItemCard from './ItemCard';
 import Category from './Category';
 import CartModal from './CartModal';
 import Nav from './Nav';
+import ErrorBoundary from './ErrorBoundary';
 const Main = () => {
-  const { category } = useCategory();
+  // states
   const [search, setSearch] = useState('');
   const [showModalCategory, setShowModalCategory] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const [active, setActive] = useState(false);
   const [items, setItems] = useState<undefined | Items[]>();
+  const [isLoading, setIsLoading] = useState(true);
+  //hooks
+  const { category } = useCategory();
   useEffect(() => {
     const abortCont = new AbortController();
 
@@ -24,9 +30,9 @@ const Main = () => {
           if (!fetchedData.ok) {
             throw Error('Could not fetch the data');
           }
-          fetchedData = await fetchedData.json();
-          const res: Array<Items> = fetchedData;
+          const res = await fetchedData.json();
           setItems(res);
+          setIsLoading(false);
         } catch (error) {
           console.error(error);
         }
@@ -38,30 +44,54 @@ const Main = () => {
 
   return (
     <>
-      <Nav setShowModalCart={setShowModalCart} active={active} />
-      <Header
-        setSearch={setSearch}
-        setShowModalCategory={setShowModalCategory}
-      />
-      {showModalCategory && (
-        <Category setShowModalCategory={setShowModalCategory} />
-      )}
-      {showModalCart && <CartModal setShowModalCart={setShowModalCart} />}
+      <ErrorBoundary>
+        <Nav setShowModalCart={setShowModalCart} active={active} />
 
-      <StyledMain>
-        {items?.map((item: Items) => {
-          if (!search && category === '') {
-            return <ItemCard key={item.id} item={item} setActive={setActive} />;
-          }
+        <Header
+          setSearch={setSearch}
+          setShowModalCategory={setShowModalCategory}
+        />
+        {showModalCategory &&
+          createPortal(
+            <Category setShowModalCategory={setShowModalCategory} />,
+            document.getElementById('portal')!
+          )}
+        {showModalCart &&
+          createPortal(
+            <CartModal setShowModalCart={setShowModalCart} />,
+            document.getElementById('portal')!
+          )}
+        {isLoading ? (
+          <StyledMain>
+            <Image
+              src="/Ellipse.png"
+              className="loading"
+              height={100}
+              width={100}
+              alt="loading-image"
+            />
+          </StyledMain>
+        ) : (
+          <StyledMain>
+            {items?.map((item: Items) => {
+              if (!search && category === '') {
+                return (
+                  <ItemCard key={item.id} item={item} setActive={setActive} />
+                );
+              }
 
-          if (
-            (!category || category == item.category) &&
-            item.title.toUpperCase().includes(search.toUpperCase())
-          ) {
-            return <ItemCard key={item.id} item={item} setActive={setActive} />;
-          }
-        })}
-      </StyledMain>
+              if (
+                (!category || category == item.category) &&
+                item.title.toUpperCase().includes(search.toUpperCase())
+              ) {
+                return (
+                  <ItemCard key={item.id} item={item} setActive={setActive} />
+                );
+              }
+            })}
+          </StyledMain>
+        )}
+      </ErrorBoundary>
     </>
   );
 };

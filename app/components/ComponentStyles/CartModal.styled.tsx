@@ -68,27 +68,32 @@ export const StyledCartModal = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    img {
-      margin-top: 10px;
-      height: 80%;
-      width: auto;
-    }
   }
   .cart-item {
     background-color: #f0f0f0;
     display: flex;
-    width: 57.8rem;
+    max-width: 57.8rem;
+    width: 100%;
     height: 8.5rem;
-    margin: 10px;
-
+    margin-bottom: 10px;
+    position: relative;
+    img {
+      margin-top: 10px;
+      height: 80%;
+      width: 15%;
+      object-fit: contain;
+      object-position: center;
+      margin-left: 5px;
+    }
     button {
       border-radius: 50%;
-      height: 30px;
-      width: 30px;
+      height: 25px;
+      width: 25px;
       border: 1px solid red;
       color: black;
-      background-color: white;
+      background-color: hsla(0, 0%, 100%, 0.8);
       cursor: pointer;
+      position: absolute;
     }
   }
   .middle-div {
@@ -99,6 +104,11 @@ export const StyledCartModal = styled.div`
     align-items: start;
     p {
       font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
     }
   }
   .right-div {
@@ -108,10 +118,10 @@ export const StyledCartModal = styled.div`
     justify-content: space-between;
     align-items: end;
     margin-left: auto;
-
+    max-width: 25%;
     input {
-      width: 14.2rem;
       height: 2.7rem;
+      width: 100%;
       text-align: center;
       border-radius: 5px;
       border: 1px solid grey;
@@ -125,7 +135,8 @@ export const StyledCartModal = styled.div`
     text-align: center;
     padding: 15px;
     border-radius: 5px;
-    width: 57.8rem;
+    max-width: 57.8rem;
+    width: 100%;
     margin-bottom: 10px;
     font-weight: bold;
   }

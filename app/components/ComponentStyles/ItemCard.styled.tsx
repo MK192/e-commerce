@@ -20,6 +20,7 @@ export const StyledItemCard = styled.article`
     margin-bottom: 10px;
     cursor: pointer;
   }
+
   button {
     position: absolute;
 
