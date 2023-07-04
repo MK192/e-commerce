@@ -7,7 +7,7 @@ export const StyledHeader = styled.header`
   max-width: 90rem;
   padding: 1.5rem 3rem;
   font-size: 1.6rem;
-
+  margin-top: 50px;
   input {
     height: 2.7rem;
     width: 18rem;

@@ -10,6 +10,7 @@ export const StyledItem = styled.article`
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  margin-top: 50px;
   .loading {
     animation: rotation 2s infinite linear;
     @keyframes rotation {

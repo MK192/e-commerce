@@ -2,42 +2,6 @@ import styled from 'styled-components';
 import { theme } from '../../styles/variables';
 
 export const StyledCartModal = styled.div`
-  .modal {
-    padding: 10px;
-    max-height: 90%;
-    overflow: auto;
-    width: 618px;
-    max-width: 90%;
-    min-width: 200px;
-    font-size: 1.6rem;
-    min-height: 150px;
-    background-color: white;
-    border-radius: 10px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-  }
-  .overlay {
-    background-color: hsla(0, 0%, 50.2%, 0.7);
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .cart-and-close {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 10px 10px;
-    margin-bottom: 0px;
-  }
   .empty-cart {
     display: flex;
     flex-direction: column;
