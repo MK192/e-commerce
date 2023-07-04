@@ -25,21 +25,20 @@ const Item = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const abortCont = new AbortController();
-    const fetchData = async () => {
-      setTimeout(async () => {
-        try {
-          let fetched = await fetch(`https://fakestoreapi.com/products/${id}`);
-          if (!fetched.ok) {
-            throw Error('Could not fetch the data');
-          }
-          let fetchedData = await fetched.json();
 
-          setSelected(fetchedData);
-          setIsLoading(false);
-        } catch (error) {
-          console.error(error);
+    const fetchData = async () => {
+      try {
+        let fetched = await fetch(`https://fakestoreapi.com/products/${id}`);
+        if (!fetched.ok) {
+          throw Error('Could not fetch the data');
         }
-      }, 100);
+        let fetchedData = await fetched.json();
+
+        setSelected(fetchedData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
     return () => abortCont.abort();

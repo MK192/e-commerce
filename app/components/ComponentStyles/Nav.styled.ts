@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { theme } from '../../styles/variables';
 
-interface Active {
+interface IActive {
   active: boolean;
 }
-export const StyledNav = styled.nav<Active>`
+export const StyledNav = styled.nav<IActive>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,6 +13,12 @@ export const StyledNav = styled.nav<Active>`
   ${theme.lightGreyBg};
   padding: 0 10px;
   box-shadow: 0 1px 6px 0 rgb(32 33 36/17%);
+  position: fixed;
+  top: 0;
+
+  width: 100%;
+  z-index: 100;
+
   .cart {
     position: relative;
   }

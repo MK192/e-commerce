@@ -7,6 +7,8 @@ type Props = {
   setShowModalCart: (showModalCart: boolean) => void;
   active: boolean;
 };
+// note: header should be fixed
+
 const Nav = ({ setShowModalCart, active }: Props) => {
   const [emptyCart, setEmptyCart] = useState(true);
   const { cart } = useCart();
