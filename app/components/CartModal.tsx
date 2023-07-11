@@ -38,7 +38,7 @@ const CartModal = ({ setShowModalCart }: Props) => {
     setTotal(Number(totalPay.toFixed(2)));
   }, [cartItems, total]);
   return (
-    <Modal title={'Cart'} setShowModal={setShowModalCart}>
+    <Modal title={'Cart'} setShowModal={setShowModalCart} customPortal={true}>
       <StyledCartModal>
         {!cartItems?.length ? (
           <div className="empty-cart">

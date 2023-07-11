@@ -71,7 +71,7 @@ const DataProvider = ({ children }: any) => {
 
   const [cart, dispatch] = useReducer(
     reducer,
-    // note: storage check
+
     isLocalStorageAccessible()
       ? JSON.parse(localStorage.getItem('cart') || '[]')
       : '[]'
