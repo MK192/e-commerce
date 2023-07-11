@@ -24,8 +24,6 @@ const Main = () => {
     const abortCont = new AbortController();
 
     const fetchData = async () => {
-      // note: why timeout?
-
       try {
         let fetchedData = await fetch('https://fakestoreapi.com/products');
         if (!fetchedData.ok) {

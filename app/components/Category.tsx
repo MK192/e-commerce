@@ -8,7 +8,11 @@ const Category = ({ setShowModalCategory }: Props) => {
   const { category, setCategory } = useCategory();
 
   return (
-    <Modal title="Filter by category" setShowModal={setShowModalCategory}>
+    <Modal
+      title="Filter by category"
+      setShowModal={setShowModalCategory}
+      customPortal={false}
+    >
       <StyledCategory>
         <div className="category-buttons">
           <button
