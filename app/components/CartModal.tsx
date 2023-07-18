@@ -3,15 +3,15 @@ import { StyledCartModal } from './ComponentStyles/CartModal.styled';
 import { deleteItem, handleChange } from '../utils/functions';
 import { Items, useCart } from './DataProvider';
 import { isLocalStorageAccessible } from '../utils/functions';
-import Modal from './Modal';
-// note: create one reusable modal component
 
+import Modal from './Modal';
 import Image from 'next/image';
 
 type Props = {
   setShowModalCart: (showModal: boolean) => void;
+  domNode: HTMLElement | Element | DocumentFragment | null;
 };
-const CartModal = ({ setShowModalCart }: Props) => {
+const CartModal = ({ setShowModalCart, domNode }: Props) => {
   //states
   const [cartItems, setCartItems] = useState<Items[]>([]);
   const [newValue, setNewValue] = useState<number | null>(null);
@@ -38,7 +38,7 @@ const CartModal = ({ setShowModalCart }: Props) => {
     setTotal(Number(totalPay.toFixed(2)));
   }, [cartItems, total]);
   return (
-    <Modal title={'Cart'} setShowModal={setShowModalCart} customPortal={true}>
+    <Modal title={'Cart'} setShowModal={setShowModalCart} domNode={domNode}>
       <StyledCartModal>
         {!cartItems?.length ? (
           <div className="empty-cart">

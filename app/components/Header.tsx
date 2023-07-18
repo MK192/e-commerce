@@ -10,7 +10,7 @@ const Header = ({ setSearch, setShowModalCategory }: Props) => {
 
   return (
     <StyledHeader>
-      <div className="search">
+      <div className="search" id="headerId">
         <input
           type="text"
           onChange={(e) => setSearch(e.target.value)}

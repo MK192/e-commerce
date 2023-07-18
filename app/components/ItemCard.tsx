@@ -6,6 +6,7 @@ import { useCart } from './DataProvider';
 import { Items } from './DataProvider';
 import { isLocalStorageAccessible } from '../utils/functions';
 import { useState } from 'react';
+
 import Image from 'next/image';
 
 type Props = {
