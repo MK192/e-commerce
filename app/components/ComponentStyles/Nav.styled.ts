@@ -19,28 +19,28 @@ export const StyledNav = styled.nav<IActive>`
   width: 100%;
   z-index: 100;
 
-  .cart {
+  .cart-nav {
     position: relative;
   }
 
   strong {
     font-size: 2.4rem;
   }
-  .empty-cart-image {
+  .empty-cart-image-nav {
     position: relative;
     height: 40px;
     width: 45px;
     filter: grayscale(100%);
     z-index: 100;
   }
-  .cart-image {
+  .cart-image-nav {
     height: 40px;
     width: 45px;
     position: relative;
     z-index: 100;
   }
 
-  .number-of-items {
+  .number-of-items-nav {
     position: absolute;
     text-align: center;
     font-size: 12px;
@@ -58,7 +58,7 @@ export const StyledNav = styled.nav<IActive>`
     align-items: center;
     z-index: 1000;
   }
-  .cart-item {
+  .cart-item-nav {
     z-index: 0;
     position: absolute;
     right: -80px;
@@ -75,7 +75,7 @@ export const StyledNav = styled.nav<IActive>`
     animation-duration: 1.6s;
     animation-timing-function: ease-out;
   }
-  .cart-item-hidden {
+  .cart-item-hidden-nav {
     position: absolute;
     z-index: 5;
     color: #f8fcfc;

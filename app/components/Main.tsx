@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCategory } from './DataProvider';
 import { Items } from './DataProvider';
 import { StyledMain } from './ComponentStyles/Main.styled';
+
 import Image from 'next/image';
 import Header from './Header';
 import ItemCard from './ItemCard';
@@ -50,9 +51,17 @@ const Main = () => {
           setShowModalCategory={setShowModalCategory}
         />
         {showModalCategory && (
-          <Category setShowModalCategory={setShowModalCategory} />
+          <Category
+            setShowModalCategory={setShowModalCategory}
+            domNode={document.getElementById('headerId')}
+          />
         )}
-        {showModalCart && <CartModal setShowModalCart={setShowModalCart} />}
+        {showModalCart && (
+          <CartModal
+            setShowModalCart={setShowModalCart}
+            domNode={document.getElementById('headerId')}
+          />
+        )}
         {isLoading ? (
           <StyledMain>
             <Image

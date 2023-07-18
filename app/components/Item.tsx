@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Items } from './DataProvider';
 import { StyledItem } from './ComponentStyles/Item.styled';
@@ -7,6 +7,7 @@ import { addSingleItem } from '../utils/functions';
 import { useCart } from './DataProvider';
 import { handleActive } from '../utils/functions';
 import { isLocalStorageAccessible } from '../utils/functions';
+
 import Image from 'next/image';
 import Nav from './Nav';
 import BackArrow from './BackArrow';
@@ -22,6 +23,7 @@ const Item = () => {
   // hooks
   const { id } = useParams();
   const { cart, dispatch } = useCart();
+  const ref = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
     const abortCont = new AbortController();
@@ -46,8 +48,10 @@ const Item = () => {
 
   return (
     <>
-      <Nav setShowModalCart={setShowModalCart} active={active} />
-      {showModalCart && <CartModal setShowModalCart={setShowModalCart} />}
+      <Nav setShowModalCart={setShowModalCart} active={active} ref={ref} />
+      {showModalCart && (
+        <CartModal setShowModalCart={setShowModalCart} domNode={ref.current} />
+      )}
       {isLoading ? (
         <StyledItem>
           <Image
