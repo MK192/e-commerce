@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { theme } from '../../styles/variables';
+import styled from "styled-components";
+import { theme } from "../../styles/variables";
 export const StyledItem = styled.article`
   display: flex;
   align-items: center;
@@ -9,7 +9,7 @@ export const StyledItem = styled.article`
   max-width: 94rem;
   margin-left: auto;
   margin-right: auto;
-  position: relative;
+
   margin-top: 50px;
   .loading {
     animation: rotation 2s infinite linear;
@@ -37,6 +37,7 @@ export const StyledItem = styled.article`
     justify-content: center;
     display: flex;
     border-radius: 10px;
+    position: relative;
   }
   .arrow {
     height: 40px;
@@ -44,8 +45,8 @@ export const StyledItem = styled.article`
     margin-left: 5px;
     cursor: pointer;
     position: absolute;
-    top: 9%;
-    left: 7%;
+    top: 15px;
+    left: 10px;
   }
   span {
     display: block;
