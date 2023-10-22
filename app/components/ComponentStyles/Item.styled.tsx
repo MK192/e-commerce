@@ -102,8 +102,8 @@ export const StyledItem = styled.article`
       width: 150px;
     }
     .arrow {
-      top: 6%;
-      left: 13%;
+      top: 5px;
+      left: 10px;
     }
   }
 `;
